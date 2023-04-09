@@ -21,3 +21,4 @@ def make_plot(n, deltaMus, AA, AB, T, time, repeats):
     plt.xlim(0, deltaMus[-1])
     plt.ylim(ymin, 1.05*ymax)
     plt.legend()
+    plt.show()

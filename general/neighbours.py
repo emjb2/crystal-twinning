@@ -14,34 +14,49 @@ def neighbours(n, loc, lattice):
     current_type = lattice[loc][-1]
     if loc not in edge_locs:
     # order is right, left, down, up
-        neighbours += [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1][current_height],
-            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1][current_height],
-            lattice[(loc + n) % (n ** 2)][current_height], lattice[(loc - n) % (n ** 2)][current_height]]
+        neighbour_stacks = [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1],
+            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1],
+            lattice[(loc + n) % (n ** 2)], lattice[(loc - n) % (n ** 2)]]
+        neighbour_heights = [len(x) for x in neighbour_stacks]
+        neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
     elif loc in top_half_locs:
         if loc in top:
-            neighbours += [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1][current_height],
-            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1][current_height],
-            lattice[(loc + n) % (n ** 2)][current_height], lattice[randint(0, (n**2)/2)][current_height]]
+            neighbour_stacks = [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1],
+            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1],
+            lattice[(loc + n) % (n ** 2)], lattice[randint(0, (n**2)/2)]]
+            neighbour_heights = [len(x) for x in neighbour_stacks]
+            neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
         elif loc in left:
-            neighbours += [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1][current_height],
-            lattice[randint(0, (n**2)/2)][current_height],
-            lattice[(loc + n) % (n ** 2)][current_height], lattice[(loc - n) % (n ** 2)][current_height]]
+            neighbour_stacks = [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1],
+            lattice[randint(0, (n**2)/2)], lattice[(loc + n) % (n ** 2)], lattice[(loc - n) % (n ** 2)]]
+            neighbour_heights = [len(x) for x in neighbour_stacks]
+            tall_stacks = [neighbour_stacks]
+            neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
         else:
-            neighbours += [lattice[randint(0, (n**2)/2)][current_height],
-            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1][current_height],
-            lattice[(loc + n) % (n ** 2)][current_height], lattice[(loc - n) % (n ** 2)][current_height]]
+            neighbour_stacks = [lattice[randint(0, (n**2)/2)],
+            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1],
+            lattice[(loc + n) % (n ** 2)], lattice[(loc - n) % (n ** 2)]]
+            neighbour_heights = [len(x) for x in neighbour_stacks]
+            neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
     elif loc in bottom_half_locs:
         if loc in bottom:
-            neighbours += [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1][current_height],
-            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1][current_height],
-            lattice[randint((n**2)/2, n**2)][current_height], lattice[(loc - n) % (n ** 2)][current_height]]
+            neighbour_stacks = [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1],
+            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1],
+            lattice[randint((n**2)/2, n**2-1)], 
+            lattice[(loc - n) % (n ** 2)]]
+            neighbour_heights = [len(x) for x in neighbour_stacks]
+            neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
         elif loc in left:
-            neighbours += [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1][current_height],
-            lattice[randint((n**2)/2, n**2)][current_height],
-            lattice[(loc + n) % (n ** 2)][current_height], lattice[(loc - n) % (n ** 2)][current_height]]
+            neighbour_stacks = [lattice[loc + (dirac_delta(n - 1, loc % n) * (-n)) + 1],
+            lattice[randint((n**2)/2, n**2-1)],
+            lattice[(loc + n) % (n ** 2)], lattice[(loc - n) % (n ** 2)]]
+            neighbour_heights = [len(x) for x in neighbour_stacks]
+            neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
         else:
-            neighbours += [lattice[randint((n**2)/2, n**2)][current_height],
-            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1][current_height],
-            lattice[(loc + n) % (n ** 2)][current_height], lattice[(loc - n) % (n ** 2)][current_height]]
+            neighbour_stacks = [lattice[randint((n**2)/2, n**2-1)],
+            lattice[loc + ((dirac_delta(0, loc % n)) * n) - 1],
+            lattice[(loc + n) % (n ** 2)], lattice[(loc - n) % (n ** 2)]]
+            neighbour_heights = [len(x) for x in neighbour_stacks]
+            neighbours += [neighbour_stacks[x][-1] for x in range(4) if neighbour_heights[x] > current_height]
     [AA, AB] =  [[1 for i in neighbours if i == current_type], [1 for i in neighbours if i != current_type]]
     return [sum(AA), sum(AB), current_type]
