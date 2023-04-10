@@ -2,13 +2,13 @@ from simulation.run_simulation import run_simulation
 from statistics import mean, stdev
 import matplotlib.pyplot as plt
 
-def make_plot(n, deltaMus, AA, AB, T, time, repeats):
+def make_plot_deltamu(n, deltaMus, AA, AB, T, time, repeats):
     results = []
     errors = []
     for i in deltaMus:
         temp = []
         for p in range(repeats):
-            temp.append(run_simulation(n, i, AA, AB, T, time))
+            temp.append(run_simulation(n, i, AA, AB, T, time)[0])
             print(i, p)
         results.append(mean(temp))
         errors.append(stdev(temp))
