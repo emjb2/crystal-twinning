@@ -18,10 +18,10 @@ def run_simulation(n, deltaMu, AA, AB, T, time):
         wrong_place += sum([1 for x in lattice[i] if x == 0])
         #print("Total: "+str(sum([sum(x) for x in lattice])/sum([len(x) for x in lattice])))
 
-    #sums = find_layer_sums(lattice)
-    #plt.plot(list(range(len(sums))), sums, marker='.')
-    #plt.ylabel("layer sum")
-    #plt.xlabel("layer number, bottom up")
-    #plt.show()
+    sums = find_layer_sums(lattice)
+    plt.plot(list(range(len(sums))), sums, marker='.')
+    plt.ylabel("layer sum")
+    plt.xlabel("layer number, bottom up")
+    plt.show()
 
-    return [wrong_place/sum([len(x) for x in lattice]), lattice, wrong_place]
+    return [sum([sum(x) for x in lattice])/sum([len(x) for x in lattice]), wrong_place/sum([len(x) for x in lattice]), lattice]

@@ -49,17 +49,15 @@ def take_step(n, lattice, deltaMu, T, AA, AB):
                 option_energies = option_energies + [x, x]
                 options = options + ["out", "out"]
             if len(options) > 0:
-                if option_energies == [0.0]:
-                    print(options, needs_extra)
-                    option_energies = [1]
-                move = choices(range(len(options)), option_energies, k=1)[0]
-                z3 = uniform(0, 1)
-                if z3 < option_energies[move]/(option_energies[move]+current_energy):
-                    if type(options[move]) == int:
-                        lattice[options[move]] = lattice[options[move]] + [current_type]
-                        lattice[loc] = lattice[loc][:-1]
-                    else:
-                        lattice[loc] = lattice[loc][:-1]
+                if sum(option_energies) != 0:
+                    move = choices(range(len(options)), option_energies, k=1)[0]
+                    z3 = uniform(0, 1)
+                    if z3 < option_energies[move]/(option_energies[move]+current_energy):
+                        if type(options[move]) == int:
+                            lattice[options[move]] = lattice[options[move]] + [current_type]
+                            lattice[loc] = lattice[loc][:-1]
+                        else:
+                            lattice[loc] = lattice[loc][:-1]
 
 
     #print("Change: "+str(sum([len(x) for x in lattice])-initial_sum))
