@@ -2,6 +2,7 @@ from simulation.take_step import take_step
 from initialise.make_lattice import make_lattice
 import matplotlib.pyplot as plt
 from general.find_layer_sums import find_layer_sums
+from analysis.plot_voxels import plot_voxels
 
 def run_simulation(n, deltaMu, AA, AB, T, time):
     lattice = make_lattice(n)
@@ -18,10 +19,12 @@ def run_simulation(n, deltaMu, AA, AB, T, time):
         wrong_place += sum([1 for x in lattice[i] if x == 0])
         #print("Total: "+str(sum([sum(x) for x in lattice])/sum([len(x) for x in lattice])))
 
-    sums = find_layer_sums(lattice)
-    plt.plot(list(range(len(sums))), sums, marker='.')
-    plt.ylabel("layer sum")
-    plt.xlabel("layer number, bottom up")
-    plt.show()
+    #sums = find_layer_sums(lattice)
+    #plt.plot(list(range(len(sums))), sums, marker='.')
+    #plt.ylabel("layer sum")
+    #plt.xlabel("layer number, bottom up")
+    #plt.show()
+    #print(lattice)
+    plot_voxels(n, lattice)
 
     return [sum([sum(x) for x in lattice])/sum([len(x) for x in lattice]), wrong_place/sum([len(x) for x in lattice]), lattice]
